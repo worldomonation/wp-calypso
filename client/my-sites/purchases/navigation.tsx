@@ -17,7 +17,7 @@ export default function PurchasesNavigation( {
 }: {
 	sectionTitle: string;
 	siteSlug: string | null;
-} ) {
+} ): JSX.Element {
 	const translate = useTranslate();
 
 	return (
@@ -25,9 +25,9 @@ export default function PurchasesNavigation( {
 			<NavTabs label="Section" selectedText={ sectionTitle }>
 				<NavItem
 					path={ `/purchases/subscriptions/${ siteSlug }` }
-					selected={ sectionTitle === 'Purchases' }
+					selected={ sectionTitle === 'Active Upgrades' }
 				>
-					{ translate( 'Purchases' ) }
+					{ translate( 'Active Upgrades' ) }
 				</NavItem>
 				<NavItem
 					path={ `/purchases/billing-history/${ siteSlug }` }
