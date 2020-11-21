@@ -31,7 +31,7 @@ export default function PaymentMethods(): JSX.Element {
 			<PageViewTracker path="/me/purchases/payment-methods" title="Me > Payment Methods" />
 			<MeSidebarNavigation />
 			<FormattedHeader brandFont headerText={ titles.sectionTitle } align="left" />
-			<PurchasesHeader section={ 'payment-methods' } />
+			<PurchasesHeader section="paymentMethods" />
 			<PaymentMethodList addPaymentMethodUrl={ addCreditCard } />
 		</Main>
 	);
