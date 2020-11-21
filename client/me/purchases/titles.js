@@ -11,6 +11,6 @@ export default {
 	editCardDetails: i18n.translate( 'Change Credit Card', { comment: 'Credit card' } ),
 	addCardDetails: i18n.translate( 'Add Credit Card', { comment: 'Credit card' } ),
 	managePurchase: i18n.translate( 'Purchase Settings' ),
-	sectionTitle: i18n.translate( 'Manage Purchases' ),
-	purchases: i18n.translate( 'Purchases' ),
+	sectionTitle: i18n.translate( 'Purchases' ),
+	purchases: i18n.translate( 'Active Upgrades' ),
 };
