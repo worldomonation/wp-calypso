@@ -13,4 +13,6 @@ export default {
 	managePurchase: i18n.translate( 'Purchase Settings' ),
 	sectionTitle: i18n.translate( 'Purchases' ),
 	purchases: i18n.translate( 'Active Upgrades' ),
+	billingHistory: i18n.translate( 'Billing History' ),
+	paymentMethods: i18n.translate( 'Payment Methods' ),
 };

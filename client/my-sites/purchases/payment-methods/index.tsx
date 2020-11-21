@@ -64,12 +64,12 @@ export function PaymentMethods( { siteSlug }: { siteSlug: string } ): JSX.Elemen
 	return (
 		<Main className="purchases is-wide-layout">
 			<MySitesSidebarNavigation />
-			<DocumentHead title={ translate( 'Payment Methods' ) } />
+			<DocumentHead title={ titles.paymentMethods } />
 			<PageViewTracker path="/purchases/payment-methods" title="Payment Methods" />
 			<FormattedHeader
 				brandFont
 				className="payment-methods__page-heading"
-				headerText={ translate( 'Purchases' ) }
+				headerText={ titles.sectionTitle }
 				align="left"
 			/>
 			<PurchasesNavigation sectionTitle={ 'Payment Methods' } siteSlug={ siteSlug } />
@@ -100,11 +100,11 @@ export function AddNewPaymentMethod( { siteSlug }: { siteSlug: string } ): JSX.E
 		<Main className="purchases is-wide-layout">
 			<MySitesSidebarNavigation />
 			<PageViewTracker path="/purchases/add-credit-card" title="Add Credit Card" />
-			<DocumentHead title={ translate( 'Add Credit Card' ) } />
+			<DocumentHead title={ titles.addCreditCard } />
 			<FormattedHeader
 				brandFont
 				className="payment-methods__page-heading"
-				headerText={ translate( 'Purchases' ) }
+				headerText={ titles.sectionTitle }
 				align="left"
 			/>
 

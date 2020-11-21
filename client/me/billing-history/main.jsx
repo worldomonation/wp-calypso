@@ -2,7 +2,6 @@
  * External dependencies
  */
 import React from 'react';
-import { localize } from 'i18n-calypso';
 
 /**
  * Internal dependencies
@@ -32,17 +31,17 @@ export function BillingHistoryList( { siteId = null, getReceiptUrlFor = billingH
 	);
 }
 
-const BillingHistory = ( { translate } ) => (
-	<Main className="billing-history is-wide-layout">
-		<DocumentHead title={ translate( 'Billing History' ) } />
-		<PageViewTracker path="/me/purchases/billing" title="Me > Billing History" />
-		<MeSidebarNavigation />
+export default function BillingHistory() {
+	return (
+		<Main className="billing-history is-wide-layout">
+			<DocumentHead title={ titles.billingHistory } />
+			<PageViewTracker path="/me/purchases/billing" title="Me > Billing History" />
+			<MeSidebarNavigation />
 
-		<FormattedHeader brandFont headerText={ titles.sectionTitle } align="left" />
-		<QueryBillingTransactions />
-		<PurchasesHeader section="billingHistory" />
-		<BillingHistoryList />
-	</Main>
-);
-
-export default localize( BillingHistory );
+			<FormattedHeader brandFont headerText={ titles.sectionTitle } align="left" />
+			<QueryBillingTransactions />
+			<PurchasesHeader section="billingHistory" />
+			<BillingHistoryList />
+		</Main>
+	);
+}
