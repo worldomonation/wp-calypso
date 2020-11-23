@@ -19,7 +19,6 @@ import currentUser from './current-user/reducer';
 import { reducer as dataRequests } from './data-layer/wpcom-http/utils';
 import documentHead from './document-head/reducer';
 import experiments from './experiments/reducer';
-import followers from './followers/reducer';
 import gsuiteUsers from './gsuite-users/reducer';
 import happychat from './happychat/reducer';
 import i18n from './i18n/reducer';
@@ -50,7 +49,6 @@ const reducers = {
 	dataRequests,
 	documentHead,
 	experiments,
-	followers,
 	gsuiteUsers,
 	happychat,
 	httpData,
