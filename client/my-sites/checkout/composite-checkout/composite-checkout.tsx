@@ -2,7 +2,7 @@
  * External dependencies
  */
 import page from 'page';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useEffect } from 'react';
 import { useTranslate } from 'i18n-calypso';
 import debugFactory from 'debug';
 import { useSelector, useDispatch, useStore } from 'react-redux';
@@ -262,6 +262,13 @@ export default function CompositeCheckout( {
 		couponItem?.wpcom_meta?.couponCode ?? '',
 		showAddCouponSuccessMessage
 	);
+
+	// Remove the coupon when it doesn't exist on the server-side
+	useEffect( () => {
+		if ( couponStatus === 'applied' && ! couponItem ) {
+			removeCoupon();
+		}
+	}, [ couponStatus, !! couponItem ] );
 
 	const getThankYouUrlBase = useGetThankYouUrl( {
 		siteSlug,

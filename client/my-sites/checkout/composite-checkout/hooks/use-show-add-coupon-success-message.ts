@@ -10,7 +10,7 @@ export default function useShowAddCouponSuccessMessage(
 ): void {
 	const lastCouponCode = useRef< string >( '' );
 	useEffect( () => {
-		if ( didAddCoupon && couponCode !== lastCouponCode.current ) {
+		if ( didAddCoupon && couponCode && couponCode !== lastCouponCode.current ) {
 			showAddCouponSuccessMessage( couponCode );
 		}
 		lastCouponCode.current = couponCode;
