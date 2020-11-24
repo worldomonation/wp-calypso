@@ -113,6 +113,10 @@ export function generateSteps( {
 			dependencies: [ 'siteSlug' ],
 		},
 
+		'free-plans-domain-discount-launch': {
+			stepName: 'free-plans-domain-discount-launch',
+		},
+
 		'plans-site-selected': {
 			stepName: 'plans-site-selected',
 			apiRequestFunction: addPlanToCart,
