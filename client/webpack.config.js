@@ -120,8 +120,6 @@ const cssChunkFilename = cssNameFromFilename( outputChunkFilename );
 
 const outputDir = path.resolve( isDesktop ? './desktop' : '.' );
 
-console.log( __filename );
-
 const fileLoader = FileConfig.loader(
 	// The server bundler express middleware serves assets from a hard-coded publicPath.
 	// This is required so that running calypso via `yarn start` doesn't break.
@@ -160,21 +158,6 @@ const webpackConfig = {
 		chunkFilename: outputChunkFilename,
 		devtoolModuleFilenameTemplate: 'app:///[resource-path]',
 	},
-	cache: {
-		// 1. Set cache type to filesystem
-		type: 'filesystem',
-		cacheDirectory: path.resolve( cachePath, 'webpack' ),
-		name: `${ extraPath }-${ isDevelopment ? 'development' : 'production' }`,
-		version: '1', // Manually bump to invalidate cache
-		buildDependencies: {
-			// 2. Add your config as buildDependency to get cache invalidation on config change
-			config: [ __filename ],
-
-			// 3. If you have other things the build depends on you can add them here
-			// Note that webpack, loaders and all modules referenced from your config are automatically added
-		},
-	},
-
 	optimization: {
 		concatenateModules: ! isDevelopment && shouldConcatenateModules,
 		// Desktop: override removeAvailableModules and removeEmptyChunks to minimize resource/RAM usage.
