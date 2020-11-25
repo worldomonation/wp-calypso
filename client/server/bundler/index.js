@@ -110,11 +110,7 @@ function middleware( app ) {
 	}
 
 	app.use( waitForCompiler );
-	app.use(
-		webpackMiddleware( compiler, {
-			mode: 'development',
-		} )
-	);
+	app.use( webpackMiddleware( compiler ) );
 }
 
 module.exports = middleware;
