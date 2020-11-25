@@ -113,21 +113,6 @@ function middleware( app ) {
 	app.use(
 		webpackMiddleware( compiler, {
 			mode: 'development',
-			publicPath: `/calypso/${ process.env.DEV_TARGET || 'evergreen' }/`,
-			stats: {
-				colors: true,
-				hash: true,
-				version: false,
-				timings: true,
-				assets: false,
-				chunks: false,
-				modules: false,
-				cached: false,
-				reasons: false,
-				source: false,
-				errorDetails: true,
-				entrypoints: false,
-			},
 		} )
 	);
 }
