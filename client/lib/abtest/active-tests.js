@@ -192,6 +192,15 @@ export default {
 		allowExistingUsers: true,
 		localeTargets: [ 'en' ],
 	},
+	freePlansDomainUpsell: {
+		datestamp: '20201125',
+		variations: {
+			test: 50,
+			control: 50,
+		},
+		defaultVariation: 'control',
+		allowExistingUsers: true,
+	},
 	jetpackConversionRateOptimization: {
 		datestamp: '20201115',
 		variations: {

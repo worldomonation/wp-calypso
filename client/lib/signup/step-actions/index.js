@@ -13,6 +13,7 @@ import {
 	omitBy,
 	pick,
 	startsWith,
+	has,
 } from 'lodash';
 
 /**
@@ -24,7 +25,7 @@ import config from 'calypso/config';
 import wpcom from 'calypso/lib/wp';
 import guessTimezone from 'calypso/lib/i18n-utils/guess-timezone';
 import user from 'calypso/lib/user';
-import { getSavedVariations } from 'calypso/lib/abtest';
+import { abtest, getSavedVariations } from 'calypso/lib/abtest';
 import { recordTracksEvent } from 'calypso/lib/analytics/tracks';
 import { recordRegistration } from 'calypso/lib/analytics/signup';
 import {
@@ -773,6 +774,25 @@ export function isPlanFulfilled( stepName, defaultDependencies, nextProps ) {
 	}
 
 	if ( shouldExcludeStep( stepName, fulfilledDependencies ) ) {
+		flows.excludeStep( stepName );
+	}
+}
+
+export function isFreePlansDomainUpselFulfilled( stepName, defaultDependencies, nextProps ) {
+	const { submitSignupStep, isPaidPlan } = nextProps;
+	const hasDomain = has( nextProps, 'signupDependencies.domainItem' );
+	const hasPlan = has( nextProps, 'signupDependencies.cartItem' );
+	const domainItem = get( nextProps, 'signupDependencies.domainItem', false );
+	const cartItem = get( nextProps, 'signupDependencies.cartItem', false );
+
+	if ( ! hasDomain || ! hasPlan ) {
+		return;
+	}
+
+	// @todo figure out if the user has a paid domain
+	if ( isPaidPlan || domainItem || cartItem || 'test' !== abtest( 'freePlansDomainUpsell' ) ) {
+		const domainUpsellItems = null;
+		submitSignupStep( { stepName, domainUpsellItems, wasSkipped: true }, { domainUpsellItems } );
 		flows.excludeStep( stepName );
 	}
 }
