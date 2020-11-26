@@ -9,6 +9,11 @@ function addConstantExport( module, name, value ) {
 	module.constantExports[ name ] = value;
 }
 
+function removeDependency( moduleGraph, module, dep ) {
+	module.removeDependency( dep );
+	moduleGraph.removeConnection( dep );
+}
+
 class InlineConstantExportsPlugin {
 	/*
 	 * `matchers` is a regular expression or an array of regular expressions that are used
@@ -144,46 +149,58 @@ class InlineConstantExportsPlugin {
 							 *
 							 * When inlining a constant, we remove the ImportSpecifierDependency and replace it
 							 * with a ConstDependency that inserts the inlined code verbatim.
+							 *
+							 * ---
+							 *
+							 * Webpack 5 keep tracks of re-exported dependencies:
+							 *   //const.js
+							 *   export const FOO=1;
+							 *
+							 *   //api.js
+							 *   export * as api from 'const';
+							 *
+							 *   //index.js
+							 *   import { api } from 'api';
+							 *   console.log( api.FOO );
+							 *
+							 * But this plugin does not support them. If a dependency has multiple IDs it means it is a
+							 * re-exported dep (eg: `api.FOO`), so we skip it.
 							 */
-							if ( dep instanceof HarmonyImportSpecifierDependency ) {
-								for ( const depId of dep.ids ) {
-									if (
-										dependencyModule.constantExports &&
-										depId in dependencyModule.constantExports
-									) {
-										// Mark the dependency for removal: we'll remove it after we're finished
-										// traversing the dependency graph.
-										importSpecifierDependencies.push( dep );
+							if ( dep instanceof HarmonyImportSpecifierDependency && dep.ids.length === 1 ) {
+								const depId = dep.ids[ 0 ];
+								if (
+									dependencyModule.constantExports &&
+									depId in dependencyModule.constantExports
+								) {
+									// Mark the dependency for removal: we'll remove it after we're finished
+									// traversing the dependency graph.
+									importSpecifierDependencies.push( dep );
 
-										let inlinedCode;
-										/*
-										 * There is one special case when we use the imported variable in object shorthand:
-										 *   import { BLOGGER } from 'plans';
-										 *   const supportedPlans = { BLOGGER };
-										 * Then we need to expand the shorthand into `{ BLOGGER: __inline_value__ }`
-										 */
-										if ( dep.shorthand ) {
-											inlinedCode = `${ dep.name }: ${ dependencyModule.constantExports[ depId ] }`;
-										} else {
-											/* Every other usage is just inlined as is */
-											inlinedCode = dependencyModule.constantExports[ depId ];
-										}
-										const inlineDep = new ConstDependency(
-											'/* inline */ ' + inlinedCode,
-											dep.range
-										);
-										inlineDep.loc = dep.loc;
-										module.addDependency( inlineDep );
-
-										/* Remember the fact that we inlined some constant. We remove import statements
-										 * only for modules where we inlined at least something. The other modules we
-										 * leave as they are. */
-										usesConstantDependencies.set( dependencyModule, true );
+									let inlinedCode;
+									/*
+									 * There is one special case when we use the imported variable in object shorthand:
+									 *   import { BLOGGER } from 'plans';
+									 *   const supportedPlans = { BLOGGER };
+									 * Then we need to expand the shorthand into `{ BLOGGER: __inline_value__ }`
+									 */
+									if ( dep.shorthand ) {
+										inlinedCode = `${ dep.name }: ${ dependencyModule.constantExports[ depId ] }`;
 									} else {
-										/* This dependency was not a constant and cannot be inlined. Remember this fact
-										 * so that we don't remove the import statement for this module. */
-										usesNonConstantDependencies.set( dependencyModule, true );
+										/* Every other usage is just inlined as is */
+										inlinedCode = dependencyModule.constantExports[ depId ];
 									}
+									const inlineDep = new ConstDependency( '/* inline */ ' + inlinedCode, dep.range );
+									inlineDep.loc = dep.loc;
+									module.addDependency( inlineDep );
+
+									/* Remember the fact that we inlined some constant. We remove import statements
+									 * only for modules where we inlined at least something. The other modules we
+									 * leave as they are. */
+									usesConstantDependencies.set( dependencyModule, true );
+								} else {
+									/* This dependency was not a constant and cannot be inlined. Remember this fact
+									 * so that we don't remove the import statement for this module. */
+									usesNonConstantDependencies.set( dependencyModule, true );
 								}
 							}
 						}
@@ -194,14 +211,13 @@ class InlineConstantExportsPlugin {
 								usesConstantDependencies.get( depModule ) &&
 								! usesNonConstantDependencies.get( depModule )
 							) {
-								module.removeDependency( depImport );
-								compilation.moduleGraph.removeConnection( depImport );
+								removeDependency( compilation.moduleGraph, module, depImport );
 							}
 						}
 
 						/* Remove the ImportSpecifierDependencies that were replaced with ConstDependencies */
 						for ( const dep of importSpecifierDependencies ) {
-							module.removeDependency( dep );
+							removeDependency( compilation.moduleGraph, module, dep );
 						}
 					}
 				} );

@@ -35,12 +35,14 @@ describe( 'webpack-inline-constant-exports-plugin', () => {
 				},
 				output: {
 					path: outputDirectory,
+					globalObject: 'window',
 				},
 				plugins: [
 					new InlineConstantExportsPlugin( [
 						/\/actions\.js$/,
 						/\/plans\.js$/,
 						/\/constants\.js$/,
+						/\/export\.js$/,
 					] ),
 				],
 			};
