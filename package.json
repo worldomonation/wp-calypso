@@ -170,7 +170,7 @@
 		"@automattic/typography": "^1.0.0",
 		"@automattic/viewport": "^1.0.0",
 		"@automattic/wp-babel-makepot": "^1.0.0",
-		"@babel/core": "^7.12.3",
+		"@babel/core": "^7.12.9",
 		"@babel/register": "^7.12.1",
 		"@signal-noise/stylelint-scales": "^1.4.0",
 		"@storybook/addon-actions": "^6.0.28",
