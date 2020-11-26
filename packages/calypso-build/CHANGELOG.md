@@ -1,10 +1,12 @@
 # Changelog
 
-## trunk (6.5.0)
+## Unreleased
 
 - Added `--esm` and `--cjs` options to `copy-assets` and `transpile` to do only one kind of
   the build (ESM or CJS) instead of both that are done by default
 - Add more target ECMAScript versions to Terser config and switch dependencies
+- Breaking change: Moved webpack to peerDependency
+- Breaking change: Migrated from wepback 4 to webpack 5
 
 ## 6.4.0
 
