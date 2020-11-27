@@ -3,6 +3,7 @@
  */
 const { builtinModules } = require( 'module' );
 const { join } = require( 'path' );
+const ExternalModule = require( 'webpack' ).ExternalModule;
 
 function getModule( request ) {
 	const parts = request.split( '/' );
@@ -26,7 +27,7 @@ module.exports = class ExternalModulesWriter {
 			const externalModules = new Set();
 
 			for ( const module of compilation.modules ) {
-				if ( ! module.external ) {
+				if ( ! ( module instanceof ExternalModule ) ) {
 					continue;
 				}
 
