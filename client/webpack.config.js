@@ -28,6 +28,7 @@ const {
 const ExtensiveLodashReplacementPlugin = require( '@automattic/webpack-extensive-lodash-replacement-plugin' );
 const autoprefixerPlugin = require( 'autoprefixer' );
 const postcssCustomPropertiesPlugin = require( 'postcss-custom-properties' );
+const pkgDir = require( 'pkg-dir' );
 
 /**
  * Internal dependencies
@@ -99,6 +100,12 @@ function filterEntrypoints( entrypoints ) {
 
 	return allowed;
 	/* eslint-enable no-console */
+}
+
+function findPackage( pkgName ) {
+	const fullPath = require.resolve( pkgName );
+	const packagePath = pkgDir.sync( fullPath );
+	return packagePath;
 }
 
 if ( ! process.env.BROWSERSLIST_ENV ) {
@@ -259,8 +266,8 @@ const webpackConfig = {
 				debug: path.resolve( __dirname, '../node_modules/debug' ),
 				store: 'store/dist/store.modern',
 				gridicons$: path.resolve( __dirname, 'components/gridicon' ),
-				'@wordpress/data': require.resolve( '@wordpress/data' ),
-				'@wordpress/i18n': require.resolve( '@wordpress/i18n' ),
+				'@wordpress/data': findPackage( '@wordpress/data' ),
+				'@wordpress/i18n': findPackage( '@wordpress/i18n' ),
 				// Alias calypso to ./client. This allows for smaller bundles, as it ensures that
 				// importing `./client/file.js` is the same thing than importing `calypso/file.js`
 				calypso: __dirname,
