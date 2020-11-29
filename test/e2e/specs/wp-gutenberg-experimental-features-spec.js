@@ -37,7 +37,7 @@ const EXPERIMENTAL_FEATURES = {
 		'__experimentalTreeGridRow',
 	],
 	'@wordpress/date': [ '__experimentalGetSettings' ],
-	'@wordpress/interface': [ '__experimentalMainDashboardButton' ],
+	'@wordpress/edit-post': [ '__experimentalMainDashboardButton' ],
 };
 
 /**
