@@ -141,7 +141,7 @@ const Followers = localize(
 			const { site, translate } = this.props;
 
 			return (
-				<Button primary={ isPrimary } href={ `/people/new/${ site.domain }` }>
+				<Button primary={ isPrimary } href={ `/people/new/${ site.slug }` }>
 					<Gridicon icon="user-add" />
 					<span>{ translate( 'Invite', { context: 'Verb. Button to invite more users.' } ) }</span>
 				</Button>
