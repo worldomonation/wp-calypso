@@ -47,6 +47,7 @@ function render_fallback_coming_soon_page() {
 	remove_action( 'wp_head', 'global_css', 5 );
 	remove_action( 'wp_footer', 'wpcom_subs_js' );
 	remove_action( 'wp_footer', 'stats_footer', 101 );
+	remove_action( 'init', 'the_neverending_home_page_init', 20 );
 	add_filter( 'jetpack_disable_eu_cookie_law_widget', '__return_true', 1 );
 	add_filter( 'jetpack_enable_opengraph', '__return_false', 1 );
 	add_filter( 'wpcom_disable_logged_out_follow', '__return_true', 10, 1 ); // Disable follow actionbar.
